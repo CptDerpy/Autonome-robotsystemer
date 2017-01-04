@@ -278,20 +278,12 @@ while (running){
 //     createDat++;
     
   // Input odometry values to data_log array and file
-    if (data_count < 1000) {
     data_log[data_count][0] = mission.time;
     data_log[data_count][1] = odo.x;
     data_log[data_count][2] = odo.y;
-    data_log[data_count++][3] = odo.theta;
+    data_log[data_count][3] = odo.theta;
     data_log[data_count][4] = odo.left_pos;
-    data_log[data_count][5] = odo.right_pos;
-    } else if (createDat == 0) {
-    for (i = 0; i < 1000; i++) {
-      fprintf(f, "%.0f\t%.2f\t%.2f\t%.2f\t%.2f\t%.2f\n", data_log[i][0], data_log[i][1], data_log[i][2], data_log[i][3], data_log[i][4], data_log[i][5]);
-    }
-    fclose(f);
-    createDat++;
-  }
+    data_log[data_count++][5] = odo.right_pos;
   
   
     
@@ -306,12 +298,12 @@ while (running){
    sm_update(&mission);
    switch (mission.state) {
      case ms_init:
-       n=4; dist=1;angle=90.0/180*M_PI;
+       n=1; dist=2;angle=0;
        mission.state= ms_fwd;      
      break;
   
      case ms_fwd:
-       if (fwd(dist,0.3,mission.time))  mission.state=ms_turn;
+       if (fwd(dist,0.2,mission.time))  mission.state=ms_end;
      break;
   
      case ms_turn:
@@ -354,6 +346,13 @@ while (running){
   speedr->updated=1;
   rhdSync();
   rhdDisconnect();
+  if (createDat == 0) {
+    for (i = 0; i < data_count; i++) {
+      fprintf(f, "%.0f\t%.2f\t%.2f\t%.2f\t%.2f\t%.2f\n", data_log[i][0], data_log[i][1], data_log[i][2], data_log[i][3], data_log[i][4], data_log[i][5]);
+    }
+    fclose(f);
+    createDat++;
+  }
   exit(0);
 }
 
