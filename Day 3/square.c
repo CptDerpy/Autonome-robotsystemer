@@ -298,7 +298,7 @@ while (running){
    sm_update(&mission);
    switch (mission.state) {
      case ms_init:
-       n=1; dist=2;angle=0;
+       n=4; dist=2;angle=90.0/180*M_PI;
        mission.state= ms_fwd;      
      break;
   
@@ -439,8 +439,10 @@ if (p->cmd !=0){
           p->motorspeed_r=0;
        }	  
        else {	
-	  p->motorspeed_l=p->speedcmd;
-          p->motorspeed_r=p->speedcmd;
+	  if (p->motorspeed_l < p->speedcmd && p->motorspeed_r < p->speedcmd) {
+	    p->motorspeed_l=0.005*mission.time;
+	    p->motorspeed_r=0.005*mission.time;
+	  }
        }
      break;
      
