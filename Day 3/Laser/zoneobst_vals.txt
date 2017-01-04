@@ -1,0 +1,10 @@
+Theoretical values:
+
+45cm fra laser foran
+<laser  l0="0.979"    l1="0.672"  l2="0.51"  l3="0.447"  l4="0.44"  l5="0.446" l6="0.508"  l7="0.672"  l8="1.275"  />
+
+45cm fra laser parallelt med venstre væg
+<laser  l0="0.44"    l1="0.467"  l2="0.574"  l3="0.855"  l4="2.233"  l5="2.258" l6="2.572"  l7="1.94"  l8="2.174"  />
+
+45cm fra laser parallelt med højre væg
+<laser  l0="2.174"    l1="1.813"  l2="2.581"  l3="2.261"  l4="2.23"  l5="0.898" l6="0.604"  l7="0.49"  l8="0.46"  />
