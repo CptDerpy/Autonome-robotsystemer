@@ -64,6 +64,8 @@ componentservertype lmssrv,camsrv;
 #define ROBOTPORT	24902
 
 
+// We have in this struct added 'right_pos_old' and 'left_pos_old' in 
+// order to be able to calculate the x- and y-positions and theta (these needs to be logged). 
 typedef struct{ //input 
 		int left_enc,right_enc; // encoderticks
 		// parameters
@@ -86,6 +88,8 @@ void update_odo(odotype *p);
 * Motion control
 */
 
+// In this struct we have added 'Vmax' which is used in the acceleration and 
+// deceleration of the robot.
 typedef struct{//input
                 int cmd;
 		int curcmd;
@@ -131,12 +135,18 @@ motiontype mot;
 
 enum {ms_init,ms_fwd,ms_turn,ms_end};
 
+
+// Here we create the array, which we use to log certain values (explained later).
+// It has a capacity if 10000, but we only log the incomming data, which 'data_count' keeps track of.
+// 'createDat' is  boolean value, which tells the program when to stop logging and close the file.
 double data_log[10000][6];
 int i, data_count = 0, createDat = 0;
 
 int main()
 {
   
+  // Here we create the files that holds the data, which we are logging.
+  // One for the x- and y-position, angle etc. and one for the laser configuration.
   FILE *f = fopen("data_log.dat", "w");
   if (f == NULL)
   {
@@ -272,8 +282,9 @@ while (running){
        
 
   rhdSync();
-  
-  //Input motorspeeds and time to data_log array
+// These outcommented lines of code was used in a previous assignment, where we had to log
+// the motorspeeds and time, but was not used later on.
+//Input motorspeeds and time to data_log array
 //   if (data_count < 500) {
 //     data_log[data_count][0] = mission.time;
 //     data_log[data_count][1] = mot.motorspeed_l;
@@ -286,6 +297,8 @@ while (running){
 //     fclose(f);
 //     createDat++;
     
+  // Here we log the data in the array which was created above. The array logs
+  // 'time', 'x-position', 'y-position', 'angle (theta)' and the left- and right-position of the wheels.
   // Input odometry values to data_log array and file
     data_log[data_count][0] = mission.time;
     data_log[data_count][1] = odo.x;
@@ -341,9 +354,9 @@ while (running){
   speedr->updated=1;
   if (time  % 100 ==0)
     //    printf(" laser %f \n",laserpar[3]);
-    
-  fprintf(f2, "%.3f\t%.3f\t%.3f\t%.3f\t%.3f\t%.3f\t%.3f\t%.3f\t%.3f\t\n", laserpar[0], laserpar[1], laserpar[2], laserpar[3], laserpar[4], laserpar[5], laserpar[6], laserpar[7], laserpar[8]);
   
+  // Here is where we log the laser data.
+  fprintf(f2, "%.3f\t%.3f\t%.3f\t%.3f\t%.3f\t%.3f\t%.3f\t%.3f\t%.3f\t\n", laserpar[0], laserpar[1], laserpar[2], laserpar[3], laserpar[4], laserpar[5], laserpar[6], laserpar[7], laserpar[8]);
   time++;
 /* stop if keyboard is activated
 *
@@ -358,6 +371,8 @@ while (running){
   speedr->updated=1;
   rhdSync();
   rhdDisconnect();
+	
+  // This loop logs the position data mentioned earlier into a file called 'data_log.dat'.
   if (createDat == 0) {
     for (i = 0; i < data_count; i++) {
       fprintf(f, "%.0f\t%.2f\t%.2f\t%.2f\t%.2f\t%.2f\n", data_log[i][0], data_log[i][1], data_log[i][2], data_log[i][3], data_log[i][4], data_log[i][5]);
@@ -380,7 +395,7 @@ while (running){
 void reset_odo(odotype * p)
 {
   p->theta = p->x = p->y = 0.0;
-  p->right_pos = p->left_pos = p->right_pos_old = p->left_pos_old = 0.0;
+  p->right_pos = p->left_pos = p->right_pos_old = p->left_pos_old = 0.0; // Here we initialize the right and left old positions.
   p->right_enc_old = p->right_enc;
   p->left_enc_old = p->left_enc;
 }
@@ -401,7 +416,7 @@ void update_odo(odotype *p)
   p->left_enc_old = p->left_enc;
   p->left_pos += delta * p->cl;
   
-  // Our code:
+  // Here we calculate 'delta_U' to be able to further calculate the angle 'theta' and the x- and y-positions.
   p->delta_U = (((p->right_pos - p->right_pos_old) + (p->left_pos - p->left_pos_old))/2);
   p->theta += ((p->right_pos - p->right_pos_old) - (p->left_pos - p->left_pos_old)) / p->w;
   p->x += p->delta_U * cos(p->theta);
@@ -445,6 +460,9 @@ if (p->cmd !=0){
        p->motorspeed_r=0;
      break;
      case mot_move:
+		   // Vmax is calculated, which calculate the max speed we can have during deceleration.
+		   // The distance is calculated currectly, by always using the relative position (startpos), which is
+		   // updated each 'turn' plus the remaining distance and substracting the robots current position.
        p->Vmax = sqrt(2*0.5*(p->startpos+p->dist - (p->left_pos + p->right_pos)/2));
        if ((p->right_pos+p->left_pos)/2- p->startpos > p->dist){
           p->finished=1;
@@ -452,6 +470,9 @@ if (p->cmd !=0){
           p->motorspeed_r=0;
        }	  
        else {
+	       // This code make the robot accelerate untill it reaches the maximum velocity givin by 'speedcmd'.
+	       // This speed is then kept constant untill the 'Vmax' is below 'speedcmd', this means
+	       // that the robot needs to decelerate and the velocity is then set equal to Vmax.
 	  if (p->motorspeed_l < p->speedcmd && p->motorspeed_r < p->speedcmd && p->motorspeed_l < p->Vmax) {
 	    p->motorspeed_l=0.005*mission.time;
 	    p->motorspeed_r=0.005*mission.time;
@@ -467,6 +488,12 @@ if (p->cmd !=0){
      
      case mot_turn:
        if (p->angle>0){
+	       
+	       // This code makes the robot accelerate and decelerate while turning as well. Vmax has to be calculated
+	       // differently due to the fact, that the distance is now curved and not linear. The curved distance
+	       // is calculated by multyplying pi/2 (angle) with the wheelbase/2. The wheel that is backing up
+	       // has a negative velocity and the wheel going forward keeps the positive value.
+	       // The if-statements have small arithmatic changes for the wheel with the negative velocity.
 	 p->Vmax = sqrt(2*0.5*(p->startpos+(p->angle*p->w/2) - p->right_pos));
 	  if (p->right_pos-p->startpos < p->angle*p->w/2){
 	    if (p->motorspeed_l > -p->speedcmd && p->motorspeed_r < p->speedcmd && p->motorspeed_l > -p->Vmax) {
@@ -487,6 +514,7 @@ if (p->cmd !=0){
 	  }
 	}
 	else {
+		// See the comment for doing a left turn. The idea is completely the same ith only small changes.
 	  p->Vmax = sqrt(2*0.5*(p->startpos-(p->angle*p->w/2) - p->left_pos));
 	  if (p->left_pos-p->startpos < fabs(p->angle)*p->w/2){
 	      if (p->motorspeed_l < p->speedcmd && p->motorspeed_r > -p->speedcmd && p->motorspeed_r > -p->Vmax) {
