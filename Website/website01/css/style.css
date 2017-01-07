@@ -1,0 +1,102 @@
+/* Import fonts */
+@font-face {
+    font-family: "Kimberley";
+    src: url(http://www.princexml.com/fonts/larabie/kimberle.ttf) format("truetype");
+}
+
+body {
+    color: black;
+    font: 1em Helvetica, serif;
+}
+
+/* Sticky footer */
+html, body, #PageContainer {height: 100%;}
+body > #PageContainer {height: auto; min-height: 100%;}
+
+.TopLink a {
+    text-decoration: none;
+    color: inherit;
+    -webkit-text-stroke: inherit;
+}
+
+.TopLink a:hover {
+    color: lightsteelblue;
+}
+
+#Header {
+    color: white;
+    background: url("../img/43490-the-terminator-terminator-salvation-robot.jpg") no-repeat fixed center top;
+    background-size: cover;
+    display: flex;
+    justify-content: center;
+}
+
+#Links {
+    position: absolute;
+    margin-top: 1em;
+}
+
+.TopLink {
+    padding: 1em;
+    display: inline-block;
+    font: 2em Kimberley, serif;
+    -webkit-text-stroke: 2px black;
+}
+
+#Title {
+    position: absolute;
+    align-self: center;
+    font-family: Kimberley, serif;
+    -webkit-text-stroke: 2px black;
+    cursor: default;
+}
+
+@media screen and (min-width : 0px)
+{
+    #Title
+    {
+        font-size: 1.6em;
+    }
+}
+@media screen and (min-width : 600px)
+{
+    #Title
+    {
+        font-size: 3em;
+    }
+}
+@media screen and (min-width : 1200px)
+{
+    #Title
+    {
+        font-size: 5em;
+    }
+}
+@media screen and (min-width : 1800px)
+{
+    #Title
+    {
+        font-size: 7em;
+    }
+}
+@media screen and (min-width : 2400px)
+{
+    #Title
+    {
+        font-size: 9em;
+    }
+}
+
+#MainContent {
+    height: 600px;
+    padding-bottom: 1em;
+}
+
+#PageFooter {
+    clear: both;
+    position: relative;
+    z-index: 10;
+    height: 1.2em;
+    margin-top: -1.2em;
+    margin-left: .5%;
+}
