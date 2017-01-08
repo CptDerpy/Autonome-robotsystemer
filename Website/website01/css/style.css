@@ -33,13 +33,13 @@ body > #PageContainer {height: auto; min-height: 100%;}
 
 #Links {
     position: absolute;
-    margin-top: 1em;
+    justify-content: center;
 }
 
 .TopLink {
     padding: 1em;
     display: inline-block;
-    font: 2em Kimberley, serif;
+    font-family: Kimberley, serif;
     -webkit-text-stroke: 2px black;
 }
 
@@ -51,45 +51,102 @@ body > #PageContainer {height: auto; min-height: 100%;}
     cursor: default;
 }
 
+#UnderTitle {
+    position: absolute;
+    align-self: center;
+    padding-top: 15%;
+    font: 5em Kimberley, serif;
+    -webkit-text-stroke: 2px black;
+    cursor: default;
+}
+
 @media screen and (min-width : 0px)
 {
-    #Title
-    {
-        font-size: 1.6em;
+    .TopLink {
+        font-size: 0.5em;
+    }
+    #Title {
+        font-size: 1.4em;
+    }
+    #UnderTitle {
+        font-size: 1em;
+    }
+    #Header {
+        min-height: 150px;
     }
 }
 @media screen and (min-width : 600px)
 {
-    #Title
-    {
-        font-size: 3em;
+    .TopLink {
+        font-size: 1em;
+    }
+    #Title {
+        font-size: 2.6em;
+    }
+    #UnderTitle {
+        font-size: 2em;
+    }
+    #Header {
+        min-height: 300px;
     }
 }
 @media screen and (min-width : 1200px)
 {
-    #Title
-    {
+    .TopLink {
+        font-size: 2em;
+    }
+    #Title {
         font-size: 5em;
+    }
+    #UnderTitle {
+        font-size: 3em;
+    }
+    #Header {
+        min-height: 400px;
     }
 }
 @media screen and (min-width : 1800px)
 {
-    #Title
-    {
+    .TopLink {
+        font-size: 2em;
+    }
+    #Title {
         font-size: 7em;
+    }
+    #UnderTitle {
+        font-size: 5em;
+    }
+    #Header {
+        min-height: 550px;
     }
 }
 @media screen and (min-width : 2400px)
 {
-    #Title
-    {
+    .TopLink {
+        font-size: 3em;
+    }
+    #Title {
         font-size: 9em;
+    }
+    #UnderTitle {
+        font-size: 7em;
+    }
+    #Header {
+        min-height: 700px;
     }
 }
 
-#MainContent {
-    height: 600px;
+#MainContentContainer {
     padding-bottom: 1em;
+    display: flex;
+    justify-content: center;
+    background-color: #bfbfc0;
+}
+
+#MainContent {
+    position: relative;
+    font-size: 1.5em;
+    padding: 0 20px 0 20px;
 }
 
 #PageFooter {
