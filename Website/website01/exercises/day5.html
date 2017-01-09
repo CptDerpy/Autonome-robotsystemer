@@ -48,8 +48,36 @@
         <div id="MainContent">
             <h1>Day 3</h1>
             <h2>Exercise 1.1</h2>
-            <p></p>
-            <pre>
+            <p>Put the smr looking towards a wall with a distance of 45 cm from the laser to
+                the wall. Issue the zoneobst cmd and note the values of zone 3, 4 and 5.</p>
+<pre>
+<code>Theoretical values:</code>
+<code></code>
+<code>45cm fra laser foran</code>
+<code>laser  l0="0.979"    l1="0.672"  l2="0.51"  l3="0.447"  l4="0.44"  l5="0.446" l6="0.508"  l7="0.672"  l8="1.275"  </code>
+<code></code>
+<code>45cm fra laser parallelt med venstre væg</code>
+<code>laser  l0="0.44"    l1="0.467"  l2="0.574"  l3="0.855"  l4="2.233"  l5="2.258" l6="2.572"  l7="1.94"  l8="2.174"  </code>
+<code></code>
+<code>45cm fra laser parallelt med højre væg</code>
+<code>laser  l0="2.174"    l1="1.813"  l2="2.581"  l3="2.261"  l4="2.23"  l5="0.898" l6="0.604"  l7="0.49"  l8="0.46"  </code>
+</pre>
+            <a href="https://github.com/CptDerpy/Autonome-robotsystemer/blob/master/Day%203/Laser/zoneobst_vals.txt" target="_blank">
+                Link to GitHub repository
+            </a>
+            <p><br></p>
+
+            <h2>Exercise 1.2</h2>
+            <p>Make a smrcl-script (documentation in smrcl.pdf) that starts the zoneobst cmd
+                (as above) and logs the return variables ($l1 to $l8)
+                Look at at logfile 'log'
+                The smrcl commands 'log' and 'wait' may be useful.</p>
+<pre>
+<code>laser "scanpush cmd='zoneobst'"</code>
+<code>wait 0.1</code>
+<code>log "$l0" "$l1" "$l2" "$l3" "$l4" "$l5" "$l6" "$l7" "$l8"</code>
+<code>wait 5</code>
+<code>stop</code>
 </pre>
             <a href="" target="_blank">
                 Link to GitHub repository
