@@ -47,21 +47,17 @@ body > #PageContainer {height: auto; min-height: 100%;}
     position: relative;
     align-self: center;
     font-family: Kimberley, serif;
-
-    -webkit-text-stroke: 2px black;
-    /*text-shadow:*/
-            /*-2px -2px 0 black,*/
-            /*2px -2px 0 black,*/
-            /*-2px 2px 0 black,*/
-            /*2px 2px 0 black;*/
+    text-shadow:
+    -2px -2px 0 black,
+    2px -2px 0 black,
+    -2px 2px 0 black,
+    2px 2px 0 black;
     cursor: default;
     text-align: center;
 }
 
-#Title a {
-    text-decoration: none;
-    color: inherit;
-    -webkit-text-stroke: 2px black;
+#Title {
+
 }
 
 #UnderTitle {
@@ -154,41 +150,8 @@ body > #PageContainer {height: auto; min-height: 100%;}
 #MainContent {
     position: relative;
     font-size: 1.5em;
-    width: 80%;
+    padding: 0 20px 0 20px;
 }
-
-#MainContent img {
-    display: block;
-    margin: 0 auto;
-    width: 70%;
-}
-
-pre {
-    line-height: .1em;
-    counter-reset: line;
-    border: 2px solid #999999;
-    padding: .5em 0 .5em 0;
-    max-height: 300px;
-}
-
-code {
-    counter-increment: line;
-    font: 1em monospace;
-}
-
-code::before {
-    display: inline-block;
-    width: 2em;
-    text-align: right;
-    font-size: 0.7em;
-    color: #999999;
-    content: counter(line)".";
-    -webkit-user-select: none;
-    border-right: 1px solid #999999;
-    margin-right: 1em;
-    padding: 0.5em;
-}
-
 
 #PageFooter {
     clear: both;
